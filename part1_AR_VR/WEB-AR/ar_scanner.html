@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html class=""><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <script src="https://aframe.io/releases/0.9.2/aframe.min.js"></script>
+    <script src="https://cdn.rawgit.com/jeromeetienne/AR.js/1.7.7/aframe/build/aframe-ar.js"></script>
+    <script src="https://raw.githack.com/donmccurdy/aframe-extras/master/dist/aframe-extras.loaders.min.js"></script>
+    <script>
+        AFRAME.registerComponent('vidhandler', {
+            // ...
+            init: function () {
+                // Set up initial state and variables.
+                this.toggle = false;
+                this.vid = document.querySelector("#myVideo")
+                this.vid.pause();
+            },
+            tick: function () {
+                if (this.el.object3D.visible == true) {
+                    if (!this.toggle) {
+                        this.toggle = true;
+                        this.vid.play();
+                    }
+                } else {
+                    this.toggle = false;
+                    this.vid.pause();
+                }
+            }
+        });
+
+    </script>
+
+
+</head>
+
+<body >
+    <a-scene embedded="" arjs="sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 3x3;" >
+
+        
+		<a-assets>
+			<a-asset-item id="animated-asset" src="https://github.com/AR-js-org/AR.js/blob/master/data/images/armchair.jpg"></a-asset-item>    
+			
+			<video crossorigin="anonymous" id="myVideo"  loop="true" type="video/mp4" src="https://www.youtube.com/watch?v=W5gI-_MWoUA">  
+			</video>
+		</a-assets>
+
+		<a-marker type="pattern" preset="custom" url="C:\xampp\htdocs\WEB-AR\pattern-panathinaikosarisgod-1664835586.patt">
+			<a-box position="0 0.5 0" material="opacity: 0.5; side: double" geometry="">
+				<a-torus-knot radius="0.26" radius-tubular="0.05" animation="property: rotation; to: 0 360 0; loop: true; dur: 5000" ></a-torus-knot>
+			</a-box>
+		</a-marker>
+
+		<a-marker vidhandler preset="custom" type="pattern" url="C:\xampp\htdocs\WEB-AR\pattern-j.patt">
+			<a-video src="#myVideo" position="0 0.5 0" rotation="270 0 0" play="true" width="2" height="2"></a-video>    
+		</a-marker>
+
+		<a-marker id="memarker" preset="hiro">
+			<a-glrf-model src="https://raw.githubusercontent.com/arjanvanbekkum/arjanvanbekkum.github.io/master/augmentedreality/scene.gltf" position="0 0 0" rotation="0 0 0" scale="0.03 0.03 0.03" animation-mixer="clip: Take 001; loop:repeat" glrf-model=""> </a-glrf-model>
+		</a-marker>
+
+		<a-entity camera=""></a-entity>
+
+		</a-scene>
+
+		<!-- Required on iOS -->
+		<script>
+			window.addEventListener('click', function () {
+			var v = document.querySelector('#myVideo');
+			v.play();
+			});
+		</script>
+  
+ 
+
+</body>
+</html>
